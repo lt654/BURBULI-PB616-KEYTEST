@@ -1,20 +1,26 @@
-BURBULI DASHBOARD v0.2 — VISUAL MOCKUP ONLY
-Target: PocketBook PB616W / InkView 5.17 / landscape.
+BURBULI DASHBOARD v0.4 — макет PocketBook PB616W
 
-Changes from v0.1: four equal zones; much larger, bolder and higher clocks;
-larger voltage, indoor/outdoor temperature and battery icon.
-Demo values only; NO Wi-Fi and NO live battery readings. Empty battery outline is NOT SOC.
-Working v0.1 is NOT replaced.
+Состав главного экрана (ландшафт):
+  Верх слева — часы крупно, полный день недели и дата по-русски.
+  Верх справа — напряжение АКБ, мощность СОЛНЦА + стрелка роста,
+                 отдельно LOAD 12V (НЕ общее потребление дома).
+  Снизу — дом / улица: крупная температура и меньшая влажность.
 
-Upload two new files to the existing GitHub repository:
-  src/pb616_dashboard_v02.c
-  .github/workflows/dashboard_v02.yml
-Run action "Build BURBULI DASHBOARD v0.2" from Actions on main.
-Download artifact, unzip BURBULI_DASHBOARD_v0.2.app.
-Copy into PocketBook /Application without overwriting v0.1.
+ВСЕ ПОКАЗАНИЯ, КРОМЕ ВРЕМЕНИ И ДАТЫ, ТЕСТОВЫЕ!
+Стрелка тренда в этой версии ТОЛЬКО НАРИСОВАНА.
+Батарейка пустая: заполнение/SOC не выдумываем.
+Wi-Fi, телеметрия и переключение страниц пока не добавлены.
 
-Controls: 5 short presses PAGE_PREV in 5 seconds = exit.
-Automatic exit: 15 minutes. Uses local clock; system sleep may interrupt.
+Добавить в текущий GitHub-репозиторий, не заменяя прежних версий:
+  src/pb616_dashboard_v04.c
+  .github/workflows/dashboard_v04.yml
 
-After installation send a photo of the landscape screen to evaluate text fit.
-Version is uncompiled / untested on PocketBook until GitHub run succeeds.
+Actions -> Build BURBULI DASHBOARD v0.4 -> Run workflow.
+Скачать Artifact BURBULI_DASHBOARD_v0.4_APP.
+Установить BURBULI_DASHBOARD_v0.4.app в Application на PocketBook.
+
+Выход: 5 быстрых PAGE_PREV. Автовыход: через 15 минут.
+
+Проверка на реальном устройстве: вмещается ли время 23:59,
+не обрезается ли ВОСКРЕСЕНЬЕ и значения температур,
+работает ли кириллица; оценить читаемость с 3–4 метров.
