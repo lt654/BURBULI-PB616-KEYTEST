@@ -1,46 +1,20 @@
-BURBULI / PocketBook PB616W — облачная сборка KEYTEST v0.3
-Тестовая прошивка книги: U616.5.17.2182
+BURBULI DASHBOARD v0.2 — VISUAL MOCKUP ONLY
+Target: PocketBook PB616W / InkView 5.17 / landscape.
 
-В АРХИВЕ ИСПОЛНЯЕМОГО .app ПОКА НЕТ.
-Компиляция должна происходить в GitHub Actions; результат скачивается из Artifacts.
-Сценарий составлен по опубликованным компонентам, но ещё НЕ ЗАПУЩЕН в Actions.
+Changes from v0.1: four equal zones; much larger, bolder and higher clocks;
+larger voltage, indoor/outdoor temperature and battery icon.
+Demo values only; NO Wi-Fi and NO live battery readings. Empty battery outline is NOT SOC.
+Working v0.1 is NOT replaced.
 
-ФАЙЛЫ РЕПОЗИТОРИЯ
-  src/pb616_keytest.c            диагностическая программа
-  .github/workflows/build.yml    сборка ARM .app через GitHub Actions
-  README_RU.txt                  эта инструкция
+Upload two new files to the existing GitHub repository:
+  src/pb616_dashboard_v02.c
+  .github/workflows/dashboard_v02.yml
+Run action "Build BURBULI DASHBOARD v0.2" from Actions on main.
+Download artifact, unzip BURBULI_DASHBOARD_v0.2.app.
+Copy into PocketBook /Application without overwriting v0.1.
 
-ЧТО ДЕЛАТЬ НА WINDOWS 10 (НЕ НУЖНО УСТАНАВЛИВАТЬ LINUX/WSL)
-1. Откройте https://github.com/new, войдите в GitHub (при необходимости создайте учётную запись).
-2. Создайте ПУБЛИЧНЫЙ репозиторий PB616-KEYTEST (никаких секретных данных в архиве нет).
-   Если GitHub предлагает README, можете создать его, чтобы появилась страница репозитория.
-3. В GitHub: Add file -> Upload files. Из Проводника Windows перетащите
-   СОДЕРЖИМОЕ распакованной папки PB616_KEYTEST_v0.3_GITHUB в окно.
-   GitHub должен увидеть src/pb616_keytest.c, .github/workflows/build.yml и README_RU.txt.
-   Если скрытый каталог .github не добавился, создайте его отдельным шагом:
-   Add file -> Create new file -> имя .github/workflows/build.yml
-   и вставьте текст build.yml из распакованного архива.
-4. Нажмите Commit changes (сохранить файлы в главную ветку).
-5. Откройте вкладку Actions -> Build PB616 KEYTEST app -> Run workflow -> Run workflow.
-6. Откройте завершившийся запуск. Если зелёный, скачайте внизу страницы
-   Artifacts -> PB616_KEYTEST_v0.3_APP. В архиве GitHub будет файл .app.
-7. При ошибке сборки: НЕ меняйте ничего на книге. Скопируйте сообщение первой
-   ошибки из Actions (шаг с красным значком) и передайте в чат.
+Controls: 5 short presses PAGE_PREV in 5 seconds = exit.
+Automatic exit: 15 minutes. Uses local clock; system sleep may interrupt.
 
-ПОСЛЕ УСПЕШНОЙ СБОРКИ (ЭТО ОТДЕЛЬНЫЙ ЭТАП)
-- Не заменяйте штатные .app в PocketBook.
-- Скопируйте только полученный PB616_KEYTEST_v0.3.app в пользовательскую папку
-  applications (устройство может показывать её как Application).
-- После запуска проверьте клавиши; программа ведёт журнал
-  /mnt/ext1/PB616_KEYTEST_LOG.txt и автоматически завершается через 4 мин.
-- Если приложение неожиданно закроется, прочитайте журнал через FAR.
-
-ОГРАНИЧЕНИЯ
-- Изготовление .app в реальном GitHub Actions ещё не проверено.
-- Runtime-совместимость с конкретной книгой подтвердит только запуск на PB616W.
-- Никакой перепрошивки устройства не требуется.
-
-Источники:
-https://github.com/koreader/pocketbook-inkview
-https://hub.docker.com/r/larento/pocketbook-sdk/tags
-https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow
+After installation send a photo of the landscape screen to evaluate text fit.
+Version is uncompiled / untested on PocketBook until GitHub run succeeds.
