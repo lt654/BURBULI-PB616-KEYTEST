@@ -1,25 +1,23 @@
-BURBULI DASHBOARD v0.4 TALLDIGITS — эксперимент для PocketBook 616 PB616W.
+BURBULI DASHBOARD v0.4.1_TALLDIGITS_FIX1 / PB616W
 
-ИЗМЕНЕНО:
-* цифры времени, напряжения и температуры теперь собственные, встроенные в программу,
-  с независимым масштабированием по высоте и ширине; внешних файлов шрифтов не требуется;
-* крупные часы, дата и день недели по-русски;
-* справа сверху напряжение домашней АКБ; снизу температуры дом/улица;
-* правый нижний угол: v0.4; левый нижний: DEMO.
+Single purpose: fix GitHub Actions compile/link error:
+  DrawEllipse() is not declared/available in this InkView SDK.
 
-ВНИМАНИЕ: все показания, кроме времени и даты, тестовые (12.86 V, 21.6 C, 7.8 C).
-НЕТ Wi-Fi, данных датчиков или SOC. Контур батареи пустой специально.
+Only program change: both degree rings now use draw_degree_ring()
+implemented with supported DrawLine(). Clock/data layout unchanged.
+Version tag at lower right updated to v0.4.1.
 
-Добавить в GitHub, не удаляя старые версии:
-  src/pb616_dashboard_v04_tall.c
-  .github/workflows/dashboard_v04_tall.yml
+Demo test: real clock/date, synthetic temperatures/voltage.
 
-Actions -> Build BURBULI DASHBOARD v0.4 TALLDIGITS -> Run workflow.
-Скачать Artifact BURBULI_DASHBOARD_v0.4_TALLDIGITS_APP (посмотреть имя в workflow),
-положить файл BURBULI_DASHBOARD_v0.4_TALLDIGITS.app в папку Application на PB616W.
+ADD NEW FILES to the existing repo (do not remove older revisions):
+  src/pb616_dashboard_v041_fix1.c
+  .github/workflows/dashboard_v041_fix1.yml
 
-Выйти: PAGE_PREV пять коротких нажатий за пять секунд.
-Автовыход: 15 минут. Компиляция в облаке GitHub Actions, на устройстве не проверено.
+Actions -> Build BURBULI DASHBOARD v0.4.1 -> Run workflow.
+Output artifact: BURBULI_DASHBOARD_v0.4.1_TALLDIGITS_FIX1_APP
+Inside artifact: BURBULI_DASHBOARD_v0.4.1_TALLDIGITS_FIX1.app
+Install under PocketBook Application alongside older .app files.
 
-В этой версии исследуем только читаемость цифр с 3-4 метров.
-Иконки пока прежние технические заглушки; позже заменим красивыми.
+Exit: 5x PAGE_PREV within 5 seconds, or automatic exit 15min.
+
+This archive is validated structurally; GitHub cross-compilation is not verified here.
