@@ -1,0 +1,58 @@
+name: Build BURBULI DASHBOARD v0.4.1 TALLDIGITS FIX1
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Download InkView 5.17 headers and link library
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p vendor build
+          BASE=https://raw.githubusercontent.com/koreader/pocketbook-inkview/master/517
+          curl --fail --location --retry 3 "$BASE/inkview.h" -o vendor/inkview.h
+          curl --fail --location --retry 3 "$BASE/libinkview.so" -o vendor/libinkview.so
+          test -s vendor/inkview.h
+          file vendor/libinkview.so
+          readelf -h vendor/libinkview.so | grep -E 'Class:|Machine:'
+
+      - name: Compile with PocketBook cross-toolchain (Docker)
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm --platform linux/amd64 \
+            -v "$PWD:/src" -w /src \
+            --entrypoint sh larento/pocketbook-sdk:5.19-a13 \
+            -ec '
+              export LD_LIBRARY_PATH=/sdk/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+              /sdk/usr/bin/arm-obreey-linux-gnueabi-gcc \
+                -std=gnu99 -O2 -Wall -Wextra \
+                -I/src/vendor /src/src/pb616_dashboard_v041_fix1.c \
+                -L/src/vendor -Wl,--allow-shlib-undefined \
+                -linkview -o /src/build/BURBULI_DASHBOARD_v0.4.1_TALLDIGITS_FIX1.app
+            '
+
+      - name: Check compiled binary
+        shell: bash
+        run: |
+          set -euo pipefail
+          file build/BURBULI_DASHBOARD_v0.4.1_TALLDIGITS_FIX1.app
+          readelf -h build/BURBULI_DASHBOARD_v0.4.1_TALLDIGITS_FIX1.app | grep -E 'Class:|Machine:|Type:'
+          test -s build/BURBULI_DASHBOARD_v0.4.1_TALLDIGITS_FIX1.app
+
+      - name: Save downloadable app
+        uses: actions/upload-artifact@v4
+        with:
+          name: BURBULI_DASHBOARD_v0.4.1_TALLDIGITS_FIX1_APP
+          path: build/BURBULI_DASHBOARD_v0.4.1_TALLDIGITS_FIX1.app
+          if-no-files-found: error
+          retention-days: 14
