@@ -1,4 +1,4 @@
-/* BURBULI DASHBOARD v0.4 | PB616W | layout-only experiment
+/* BURBULI DASHBOARD v0.4 FIX1 | PB616W | layout-only experiment
  * All sensor/energy numbers are DEMO. Clock/date are device-local.
  * A larger clock area, full Russian weekday, energy group, temperature+RH.
  * NO WiFi; NO live measurements; NO invented total consumption or SOC.
@@ -25,6 +25,18 @@ static void thick_line(int x1,int y1,int x2,int y2,int thickness) {
     int i;
     for(i=0;i<thickness;i++) DrawLine(x1,y1+i,x2,y2+i,BLACK);
 }
+/* InkView 5.17 supports DrawLine, but not DrawEllipse.
+ * Approximate outlined circles with 16 straight segments (no libm). */
+static void outline_circle(int cx,int cy,int radius) {
+    static const int vx[16]={100,92,71,38,0,-38,-71,-92,-100,-92,-71,-38,0,38,71,92};
+    static const int vy[16]={0,38,71,92,100,92,71,38,0,-38,-71,-92,-100,-92,-71,-38};
+    int i;
+    for(i=0;i<16;i++) {
+        int next=(i+1)%16;
+        DrawLine(cx+radius*vx[i]/100,cy+radius*vy[i]/100,
+                 cx+radius*vx[next]/100,cy+radius*vy[next]/100,BLACK);
+    }
+}
 static void icon_battery(int x,int y) {
     int i;
     for(i=0;i<5;i++) DrawRect(x+i,y+i,81-2*i,47-2*i,BLACK);
@@ -33,7 +45,7 @@ static void icon_battery(int x,int y) {
 }
 static void icon_sun(int x,int y) {
     int i;
-    for(i=0;i<5;i++) DrawEllipse(x+18+i,y+18+i,53-2*i,53-2*i,BLACK);
+    for(i=0;i<5;i++) outline_circle(x+44,y+44,26-i);
     thick_line(x+43,y,x+43,y+13,4);
     thick_line(x+43,y+78,x+43,y+91,4);
     thick_line(x-2,y+44,x+12,y+44,4);
@@ -76,7 +88,7 @@ static void icon_drop(int x,int y) {
     for(i=0;i<4;i++) {
         DrawLine(x+14,y+i,x+2+i,y+22,BLACK);
         DrawLine(x+14,y+i,x+27-i,y+22,BLACK);
-        DrawEllipse(x+3+i,y+15+i,24-2*i,24-2*i,BLACK);
+        outline_circle(x+15,y+27,12-i);
     }
 }
 static void arrow_trend_up(int x,int y) {
