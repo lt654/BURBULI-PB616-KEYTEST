@@ -7826,7 +7826,7 @@ static void draw_measurements(void) {
             snprintf(status,sizeof(status),"%s / %s",home,aranet);
             DrawString(32,115,status);
         }
-        DrawString(670,115,"v1.5.8");
+        DrawString(670,115,"v1.5.9");
     }
 }
 /* Photo-first HOME page. Existing v0.9 dashboard is retained as page 2.
@@ -7877,7 +7877,7 @@ static void photo_readings(void) {
         /* Dedicated bottom strip with enough space above physical screen edge. */
         DrawLine(28,909,729,909,BLACK);
         DrawString(35,942,"NEXT: приборы  |  PREV x5: выход");
-        DrawString(651,974,"v1.5.8");
+        DrawString(651,974,"v1.5.9");
     }
 }
 static void photo_clock(void) {
@@ -7981,7 +7981,7 @@ static void theme_footer(const char *next_label) {
         SetFont(f_small,BLACK);
         snprintf(msg,sizeof(msg),"NEXT: %s | PREV x5: выход",next_label);
         DrawString(35,938,msg);
-        DrawString(647,971,"v1.5.8");
+        DrawString(647,971,"v1.5.9");
     }
 }
 static void theme_header(void) {
