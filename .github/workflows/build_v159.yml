@@ -25,6 +25,13 @@ jobs:
           file vendor/libinkview.so
           readelf -h vendor/libinkview.so | grep -E 'Class:|Machine:'
 
+      - name: Verify source file is present
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s src/pb_display_v159_wifi_bmp_display.c
+          ls -lh src/pb_display_v159_wifi_bmp_display.c
+
       - name: Compile with PocketBook cross-toolchain (Docker)
         shell: bash
         run: |
@@ -36,7 +43,7 @@ jobs:
               export LD_LIBRARY_PATH=/sdk/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
               /sdk/usr/bin/arm-obreey-linux-gnueabi-gcc \
                 -std=gnu99 -O2 -Wall -Wextra \
-                -I/src/vendor /src/src/pb_display_pb_display_v159_wifi_bmp_display.c \
+                -I/src/vendor /src/src/pb_display_v159_wifi_bmp_display.c \
                 -L/src/vendor -Wl,--allow-shlib-undefined \
                 -linkview -o /src/build/BURBULI_DISPLAY_v1.5.9_WIFI_BMP_DISPLAY.app
             '
