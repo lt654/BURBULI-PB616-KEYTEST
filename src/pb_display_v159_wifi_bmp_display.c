@@ -20664,7 +20664,8 @@ static void wifi_bmp_once(void) {
     }
     wifi_bmp_image=LoadBitmap(WIFI_BMP_FILE);
     if(!wifi_bmp_image || wifi_bmp_image->width!=512 || wifi_bmp_image->height!=512) {
-        if(wifi_bmp_image) {DeleteBitmap(wifi_bmp_image);wifi_bmp_image=NULL;}
+        /* One-shot diagnostic: retain a failed decode until process exit. */
+        wifi_bmp_image=NULL;
         stage=9;goto done;
     }
     wifi_bmp_bytes=size;
@@ -20858,7 +20859,8 @@ static int handler(int type,int p1,int p2) {
       case EVT_KEYREPEAT: return 1;
       case EVT_EXIT:
         frontlight_restore();
-        if(wifi_bmp_image) {DeleteBitmap(wifi_bmp_image);wifi_bmp_image=NULL;}
+        /* One-shot bitmap memory is reclaimed when the application exits.
+         * This SDK library does not export DeleteBitmap. */
         /* Stop art timer when leaving the application. */
         ClearTimerByName("burbuli_art_slideshow");
         ClearTimerByName("burbuli_wifi_bmp_test");
